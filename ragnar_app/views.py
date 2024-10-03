@@ -28,7 +28,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    def create(self, request):
+    def create(self, request):    
         data = request.data
         data['password'] = make_password(data.get('password'))
         serializer = self.get_serializer(data=data)
