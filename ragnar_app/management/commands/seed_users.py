@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import make_password
 class Command(BaseCommand):
     help = 'Seed the database with initial users'
 
-    def handle(self):
+    def handle(self,*args, **kwargs):
         # Check if users already exist
         if not User.objects.filter(username='admin').exists():
             # Create a superuser
