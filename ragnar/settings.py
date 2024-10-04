@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import dj_database_url
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -93,14 +95,22 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-   'default': {
+ 'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',  # Set to your database server's address
-        'PORT': '5436',       # Default PostgreSQL port
+        'NAME': 'ragnar_um1u',  # Replace with your database name
+        'USER': 'ragnar_um1u_user',       # Replace with your database user
+        'PASSWORD': '06IO4m8WXEQU0sSsYWP7HAp8VDWPpz7t',   # Replace with your database password
+        'HOST': 'dpg-cs051jt2ng1s73em4h60-a.oregon-postgres.render.com',           # Replace with your Render DB host (often looks like 'oregon-postgres.render.com')
+        'PORT': '5432',           # Replace with your database port (usually 5432)
     }
+#    'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'django',
+#         'USER': 'postgres',
+#         'PASSWORD': 'root',
+#         'HOST': 'localhost',  # Set to your database server's address
+#         'PORT': '5436',       # Default PostgreSQL port
+#     }
 }
 
 
