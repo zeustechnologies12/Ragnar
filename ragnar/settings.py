@@ -95,16 +95,6 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',  # or the database engine you are using
-        'NAME': os.getenv('DB_NAME', 'django'),
-        'USER': os.getenv('DB_USER', 'postgres'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'root'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),  # 'localhost' for development
-        'PORT': os.getenv('DB_PORT', '5436'),  # Default port for PostgreSQL
-    }
-
-
 #  'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'ragnar_um1u',  # Replace with your database name
@@ -121,6 +111,14 @@ DATABASES = {
 #         'HOST': 'localhost',  # Set to your database server's address
 #         'PORT': '5436',       # Default PostgreSQL port
 #     }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',  # or the database engine you are using
+        'NAME': os.getenv('DB_NAME', 'your_default_db_name'),
+        'USER': os.getenv('DB_USER', 'your_default_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'your_default_password'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),  # 'localhost' for development
+        'PORT': os.getenv('DB_PORT', '5432'),  # Default port for PostgreSQL
+    }
 }
 
 
