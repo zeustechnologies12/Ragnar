@@ -103,13 +103,21 @@ DATABASES = {
 #         'HOST': 'dpg-cs051jt2ng1s73em4h60-a.oregon-postgres.render.com',           # Replace with your Render DB host (often looks like 'oregon-postgres.render.com')
 #         'PORT': '5432',           # Replace with your database port (usually 5432)
 #     }
-   'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',  # Set to your database server's address
-        'PORT': '5436',       # Default PostgreSQL port
+#    'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'django',
+#         'USER': 'postgres',
+#         'PASSWORD': 'root',
+#         'HOST': 'localhost',  # Set to your database server's address
+#         'PORT': '5436',       # Default PostgreSQL port
+#     }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',  # or the database engine you are using
+        'NAME': os.getenv('DB_NAME', 'your_default_db_name'),
+        'USER': os.getenv('DB_USER', 'your_default_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'your_default_password'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),  # 'localhost' for development
+        'PORT': os.getenv('DB_PORT', '5432'),  # Default port for PostgreSQL
     }
 }
 
