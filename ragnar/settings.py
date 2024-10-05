@@ -95,14 +95,24 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
- 'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ragnar_um1u',  # Replace with your database name
-        'USER': 'ragnar_um1u_user',       # Replace with your database user
-        'PASSWORD': '06IO4m8WXEQU0sSsYWP7HAp8VDWPpz7t',   # Replace with your database password
-        'HOST': 'dpg-cs051jt2ng1s73em4h60-a.oregon-postgres.render.com',           # Replace with your Render DB host (often looks like 'oregon-postgres.render.com')
-        'PORT': '5432',           # Replace with your database port (usually 5432)
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',  # or the database engine you are using
+        'NAME': os.getenv('DB_NAME', 'django'),
+        'USER': os.getenv('DB_USER', 'postgres'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'root'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),  # 'localhost' for development
+        'PORT': os.getenv('DB_PORT', '5436'),  # Default port for PostgreSQL
     }
+
+
+#  'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'ragnar_um1u',  # Replace with your database name
+#         'USER': 'ragnar_um1u_user',       # Replace with your database user
+#         'PASSWORD': '06IO4m8WXEQU0sSsYWP7HAp8VDWPpz7t',   # Replace with your database password
+#         'HOST': 'dpg-cs051jt2ng1s73em4h60-a.oregon-postgres.render.com',           # Replace with your Render DB host (often looks like 'oregon-postgres.render.com')
+#         'PORT': '5432',           # Replace with your database port (usually 5432)
+#     }
 #    'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'django',
