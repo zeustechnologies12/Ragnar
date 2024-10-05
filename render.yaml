@@ -11,6 +11,7 @@ services:
       - key: DJANGO_SETTINGS_MODULE
         value: ragnar.settings
     autoDeploy: true
-    postDeploy:
-      - python manage.py makemigrations
-      - python manage.py migrate
+    build:
+      postDeploy:
+        - python manage.py makemigrations
+        - python manage.py migrate
