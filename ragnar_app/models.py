@@ -1,6 +1,7 @@
 from django.db import models
+from django_softdelete.models import SoftDeleteModel
 
-class Manager(models.Model):
+class Manager(SoftDeleteModel,models.Model):
     first_name  = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100,unique=True)
@@ -13,7 +14,7 @@ class Manager(models.Model):
     class Meta:
         db_table = 'managers'
     
-class User(models.Model):
+class User(SoftDeleteModel,models.Model):
     first_name  = models.CharField(max_length=100)
     last_name  = models.CharField(max_length=100)
     email = models.EmailField(max_length=100,unique=True)
