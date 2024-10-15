@@ -14,7 +14,10 @@ class ManagerViewSet(viewsets.ModelViewSet):
 
     def create(self,request):
         data = request.data
-        data['password'] = make_password(data.get('password'))
+        if data.get('password'):
+            data['password'] = make_password(data.get('password'))
+        else:
+            return Response({"message":"Password is required"},status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(data=data)
         if serializer.is_valid():
             manager = serializer.save()
