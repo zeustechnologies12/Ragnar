@@ -7,7 +7,6 @@ from rest_framework_simplejwt.views import (
 )
 
 router = DefaultRouter()
-router.register(r'api/managers', ManagerViewSet)
 router.register(r'api/users',UserViewSet)
 
 urlpatterns = [
