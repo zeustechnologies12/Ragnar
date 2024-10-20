@@ -43,9 +43,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
             return Response({
                 "succes":True,
-                "data":user,
-                "message":user.role + " Created Successfully",
-                user.role:user.first_name,
+                "data":self.get_serializer(user).data,
+                "message":"User Created Successfully",
             },status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
