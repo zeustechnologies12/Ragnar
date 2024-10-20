@@ -38,8 +38,11 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], url_path='login', url_name='login-user')
     def login(self,request):
         data = request.data
-        user = User.objects.get(email = data.get('email'))
+        user = User.objects.get(email = data.get('email'),role  = data.get('role'))
         password = data.get('password')
+        if not data.get('password'):
+            return Response({"message":"Password is required"},status=status.HTTP_400_BAD_REQUEST)
+       
         if(check_password( password,user.password)):
             refresh = RefreshToken.for_user(user) 
             return Response({
