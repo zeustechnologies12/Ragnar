@@ -9,6 +9,7 @@ from .serializers import *
 from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.models import Group
 
 
 
@@ -29,7 +30,20 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=data)
         if serializer.is_valid():
             user  = serializer.save()
+            if 'roles' in data and isinstance(data['roles'], list):
+                roles = data.get('roles')
+                for role_name in roles:
+                    try:
+                        group = Group.objects.get(name=role_name)
+                        user.groups.add(group)  
+                    except Group.DoesNotExist:
+                        return Response({"message": f"Role {role_name} does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({"message": "At least one role is required"}, status=status.HTTP_400_BAD_REQUEST)
+
             return Response({
+                "succes":True,
+                "data":user,
                 "message":user.role + " Created Successfully",
                 user.role:user.first_name,
             },status=status.HTTP_200_OK)
@@ -38,24 +52,27 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], url_path='login', url_name='login-user')
     def login(self,request):
         data = request.data
-        if not data.get('role'):
-            return Response({"message":"Role is required"},status=status.HTTP_400_BAD_REQUEST)
         if not data.get('password') :
             return Response({"message":"Password is required"},status=status.HTTP_400_BAD_REQUEST)
-        user = User.objects.get(email = data.get('email'),role = data.get('role')) 
+        user = User.objects.get(email = data.get('email')) 
         if not user:
             return Response({"message":"User not found"},status=status.HTTP_400_BAD_REQUEST)
         
         password = data.get('password')
         if(check_password( password,user.password)):
+            user_groups = {group.id: group.name for group in user.groups.all()}
+            user_data = self.get_serializer(user).data
             refresh = RefreshToken.for_user(user) 
             return Response({
+            "succes":True,
+            "data":user_data,
             "message":"Logged In Successfully",
             "user":user.email,
             "tokens":{
                 'access': str(refresh.access_token),
                 'refresh': str(refresh),
-            }
+            },
+            "roles": user_groups, 
             },status=status.HTTP_200_OK)
         else:
             return Response({

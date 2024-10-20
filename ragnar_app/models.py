@@ -1,11 +1,10 @@
 from django.db import models
 from django_softdelete.models import SoftDeleteModel
-from django.contrib.auth.models import AbstractBaseUser    
+from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin    
 from .enums import *
-class User(SoftDeleteModel,AbstractBaseUser):
+class User(SoftDeleteModel,AbstractBaseUser,PermissionsMixin):
     first_name  = models.CharField(max_length=100)
     last_name  = models.CharField(max_length=100)
-    username = models.CharField(max_length=100,unique=True)
     email = models.EmailField(max_length=100,unique=True)
     password = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15,unique=True)
@@ -15,7 +14,7 @@ class User(SoftDeleteModel,AbstractBaseUser):
     updated_at = models.DateTimeField(auto_now_add=True)
 
     REQUIRED_FIELDS = []
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'email'
     
 
     class Meta:
