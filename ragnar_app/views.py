@@ -60,8 +60,8 @@ class UserViewSet(viewsets.ModelViewSet):
         password = data.get('password')
         if(check_password( password,user.password)):
             user_groups = {group.id: group.name for group in user.groups.all()}
-            user_data = self.get_serializer(user).data
             refresh = RefreshToken.for_user(user) 
+            user_data = self.get_serializer(user).data | {"roles":user_groups}
             return Response({
             "succes":True,
             "data":user_data,
