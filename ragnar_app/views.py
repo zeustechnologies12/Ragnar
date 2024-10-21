@@ -27,20 +27,20 @@ class UserViewSet(viewsets.ModelViewSet):
             data['password'] = make_password(data.get('password'))
         else:
             return Response({"message":"Password is required"},status=status.HTTP_400_BAD_REQUEST)
+        if 'role' not in data:
+             return Response({"message":"Role is required"},status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(data=data)
         if serializer.is_valid():
+            role = data.get('role')
+            try:
+                group = Group.objects.get(name = role)
+            
+            except:
+                return Response({"message": f"Role {role} does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+            
             user  = serializer.save()
-            if 'roles' in data and isinstance(data['roles'], list):
-                roles = data.get('roles')
-                for role_name in roles:
-                    try:
-                        group = Group.objects.get(name=role_name)
-                        user.groups.add(group)  
-                    except Group.DoesNotExist:
-                        return Response({"message": f"Role {role_name} does not exist"}, status=status.HTTP_400_BAD_REQUEST)
-            else:
-                return Response({"message": "At least one role is required"}, status=status.HTTP_400_BAD_REQUEST)
-
+            user.groups.add(group)
+            
             return Response({
                 "succes":True,
                 "data":self.get_serializer(user).data,
